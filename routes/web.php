@@ -67,31 +67,3 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
 });
 
 require __DIR__ . '/auth.php';
-
-// ROUTE TES SEMENTARA (Nanti dihapus) - KEEP AS-IS or REMOVE IF NO LONGER NEEDED
-// Route::get('/test-ambil-manual', function () {
-//     // 1. Kita pura-pura jadi mahasiswa yang sedang login
-//     $user = App\Models\User::where('role', 'mahasiswa')->first();
-//     Auth::login($user);
-
-//     // 2. Kita ambil satu jadwal acak
-//     $jadwal = App\Models\JadwalKuliah::first();
-
-//     if (!$jadwal) return "Buat dulu jadwal kuliah di Admin!";
-
-//     // 3. Coba panggil logic simpan manual
-//     // Cek duplikat
-//     $cek = App\Models\Krs::where('user_id', $user->id)->where('jadwal_kuliah_id', $jadwal->id)->first();
-//     if ($cek) return "Tes Gagal: Data sudah ada (Duplikat). Hapus dulu di database/tinker.";
-
-//     // Simpan
-//     App\Models\Krs::create([
-//         'user_id' => $user->id,
-//         'jadwal_kuliah_id' => $jadwal->id
-//     ]);
-
-//     return "SUKSES! Berhasil menyimpan KRS untuk user: " . $user->name . " | Matkul ID: " . $jadwal->id;
-// });
-
-// Route Tes Hitungan (Nanti dihapus) - KEEP AS-IS or REMOVE IF NO LONGER NEEDED
-// Route::get('/test-ipk', [App\Http\Controllers\KhsController::class, 'testHitung'])->middleware('auth');
