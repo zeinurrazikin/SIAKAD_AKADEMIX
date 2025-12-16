@@ -4,35 +4,30 @@ use App\Models\JadwalKuliah;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController; // Add this import
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Main Dashboard route acts as a dispatcher
 Route::get('/dashboard', function () {
     $user = Auth::user();
-    $jadwals = [];
 
     if ($user->role == 'mahasiswa') {
-        // Mahasiswa melihat SEMUA jadwal yang aktif
-        // (Nanti di tahap KRS kita filter lagi, tapi skrg tampilkan semua dulu)
-        $jadwals = JadwalKuliah::with(['mataKuliah', 'dosen', 'ruangan'])->latest()->get();
+        return redirect()->route('mahasiswa.dashboard');
     } elseif ($user->role == 'dosen') {
-        // Dosen HANYA melihat jadwal di mana DIA yang mengajar
-        $jadwals = JadwalKuliah::with(['mataKuliah', 'ruangan'])
-            ->where('dosen_id', $user->id) // Filter by ID Dosen yang login
-            ->get();
+        return redirect()->route('dosen.dashboard');
     } elseif ($user->role == 'admin') {
-        // Admin bisa melihat total data (opsional, buat statistik)
-        // Disini kita kosongkan dulu biar dashboard admin bersih
+        return redirect()->route('admin.dashboard');
     }
-
-    return view('dashboard', compact('jadwals'));
+    // Fallback if role is not recognized or not logged in (should be caught by middleware)
+    return redirect()->route('profile.edit'); // Or any other appropriate fallback
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rute Khusus Admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-
+    Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('dashboard'); // Admin Dashboard
     // Ini otomatis membuat jalur untuk index, create, store, edit, update, destroy
     Route::resource('users', App\Http\Controllers\AdminUserController::class);
     Route::resource('matakuliah', App\Http\Controllers\MataKuliahController::class);
@@ -42,35 +37,25 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 // Route Khusus Dosen
 Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->group(function () {
-
+    Route::get('/dashboard', [DashboardController::class, 'dosenDashboard'])->name('dashboard'); // Dosen Dashboard
     // Halaman List Kelas
     Route::get('/input-nilai', [App\Http\Controllers\DosenNilaiController::class, 'index'])->name('nilai.index');
 
     // 1. Masuk ke kelas tertentu (Lihat mahasiswa)
     Route::get('/input-nilai/{jadwal}', [App\Http\Controllers\DosenNilaiController::class, 'show'])->name('nilai.show');
 
-    // 2. Simpan Nilai Per Mahasiswa
-    Route::put('/input-nilai/simpan/{krs}', [App\Http\Controllers\DosenNilaiController::class, 'update'])->name('nilai.update');
+    // 2. Simpan Nilai Massal (Batch Update)
+    Route::post('/input-nilai/batch-update/{jadwal}', [App\Http\Controllers\DosenNilaiController::class, 'batchUpdate'])->name('nilai.batchUpdate');
 });
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-// Halaman Khusus Admin
-Route::get('/admin/dashboard', function () {
-    return "Halo Admin! Ini halaman rahasia.";
-})->middleware(['auth', 'role:admin']); // <--- Perhatikan satpamnya
 
-// Halaman Khusus Dosen
-Route::get('/dosen/dashboard', function () {
-    return "Halo Dosen! Silakan input nilai.";
-})->middleware(['auth', 'role:dosen']);
-require __DIR__ . '/auth.php';
-
-// Route Khusus Mahasiswa
+// Halaman Khusus Mahasiswa
 Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-
+    Route::get('/dashboard', [DashboardController::class, 'mahasiswaDashboard'])->name('dashboard'); // Mahasiswa Dashboard
     // Ini akan membuat route:
     // mahasiswa.krs.index (Halaman KRS)
     // mahasiswa.krs.store (Proses Ambil)
@@ -80,7 +65,10 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
     // ... route khs ...
     Route::get('/transkrip', [App\Http\Controllers\KhsController::class, 'transkrip'])->name('khs.transkrip');
 });
-// ROUTE TES SEMENTARA (Nanti dihapus)
+
+require __DIR__ . '/auth.php';
+
+// ROUTE TES SEMENTARA (Nanti dihapus) - KEEP AS-IS or REMOVE IF NO LONGER NEEDED
 // Route::get('/test-ambil-manual', function () {
 //     // 1. Kita pura-pura jadi mahasiswa yang sedang login
 //     $user = App\Models\User::where('role', 'mahasiswa')->first();
@@ -105,5 +93,5 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
 //     return "SUKSES! Berhasil menyimpan KRS untuk user: " . $user->name . " | Matkul ID: " . $jadwal->id;
 // });
 
-// Route Tes Hitungan (Nanti dihapus)
+// Route Tes Hitungan (Nanti dihapus) - KEEP AS-IS or REMOVE IF NO LONGER NEEDED
 // Route::get('/test-ipk', [App\Http\Controllers\KhsController::class, 'testHitung'])->middleware('auth');

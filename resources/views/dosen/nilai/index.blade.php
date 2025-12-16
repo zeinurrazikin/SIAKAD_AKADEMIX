@@ -1,15 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Input Nilai Mahasiswa
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        {{ __('Input Nilai Mahasiswa') }}
+                    </h2>
+                </div>
+            </div>
 
-                <h3 class="text-lg font-bold mb-4">Pilih Kelas yang Anda Ajar:</h3>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+
+                <h3 class="text-lg font-bold mb-4 text-gray-800 dark:text-gray-200">Pilih Kelas yang Anda Ajar:</h3>
 
                 @if($jadwals->isEmpty())
                 <p class="text-gray-500 italic">Anda belum memiliki jadwal mengajar.</p>

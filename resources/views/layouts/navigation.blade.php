@@ -18,7 +18,7 @@
 
                     <!-- Menu khusus mahasiswa -->
                     @if(Auth::check() && Auth::user()->role == 'mahasiswa')
-                    <x-nav-link :href="route('mahasiswa.krs.index')" :active="request()->routeIs('mahasiswa.krs.*')">
+                    {{-- <x-nav-link :href="route('mahasiswa.krs.index')" :active="request()->routeIs('mahasiswa.krs.*')">
                         {{ __('Isi KRS') }}
                     </x-nav-link>
 
@@ -30,14 +30,14 @@
                     <!-- Menu Transkrip Nilai -->
                     <x-nav-link :href="route('mahasiswa.khs.transkrip')" :active="request()->routeIs('mahasiswa.khs.transkrip')">
                         {{ __('Transkrip Nilai') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                     @endif
 
                     <!-- Menu khusus dosen -->
                     @if(Auth::check() && Auth::user()->role == 'dosen')
-                    <x-nav-link :href="route('dosen.nilai.index')" :active="request()->routeIs('dosen.nilai.*')">
+                    {{-- <x-nav-link :href="route('dosen.nilai.index')" :active="request()->routeIs('dosen.nilai.*')">
                         {{ __('Input Nilai') }}
-                    </x-nav-link>
+                    </x-nav-link> --}}
                     @endif
                 </div>
             </div>
@@ -94,7 +94,7 @@
 
             <!-- Menu khusus mahasiswa (responsive) -->
             @if(Auth::check() && Auth::user()->role == 'mahasiswa')
-            <x-responsive-nav-link :href="route('mahasiswa.krs.index')" :active="request()->routeIs('mahasiswa.krs.*')">
+            {{-- <x-responsive-nav-link :href="route('mahasiswa.krs.index')" :active="request()->routeIs('mahasiswa.krs.*')">
                 {{ __('Isi KRS') }}
             </x-responsive-nav-link>
 
@@ -106,14 +106,14 @@
             <!-- Menu Transkrip Nilai (responsive) -->
             <x-responsive-nav-link :href="route('mahasiswa.khs.transkrip')" :active="request()->routeIs('mahasiswa.khs.transkrip')">
                 {{ __('Transkrip Nilai') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> --}}
             @endif
 
             <!-- Menu khusus dosen (responsive) -->
             @if(Auth::check() && Auth::user()->role == 'dosen')
-            <x-responsive-nav-link :href="route('dosen.nilai.index')" :active="request()->routeIs('dosen.nilai.*')">
+            {{-- <x-responsive-nav-link :href="route('dosen.nilai.index')" :active="request()->routeIs('dosen.nilai.*')">
                 {{ __('Input Nilai') }}
-            </x-responsive-nav-link>
+            </x-responsive-nav-link> --}}
             @endif
         </div>
 
