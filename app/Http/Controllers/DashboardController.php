@@ -29,13 +29,13 @@ class DashboardController extends Controller
     {
         $dosenId = Auth::id();
 
-        // 1. Ambil semua jadwal yang diajar dosen
+        // Ambil semua jadwal yang diajar dosen
         $jadwals = JadwalKuliah::with(['mataKuliah', 'ruangan', 'semester'])
             ->where('dosen_id', $dosenId)
             ->latest()
             ->get();
 
-        // 2. Hitung total mahasiswa unik dari semua jadwal yang diajar
+        // Hitung total mahasiswa unik dari semua jadwal yang diajar
         // Ambil semua ID jadwal
         $jadwalIds = $jadwals->pluck('id');
 
@@ -51,10 +51,10 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // 1. Ambil SEMUA jadwal yang aktif untuk ditampilkan di tabel
+        // Ambil SEMUA jadwal yang aktif untuk ditampilkan di tabel
         $jadwals = JadwalKuliah::with(['mataKuliah', 'dosen', 'ruangan'])->latest()->get();
 
-        // 2. Hitung statistik mahasiswa (SKS & IPK)
+        // Hitung statistik mahasiswa (SKS & IPK)
         $krsSudahDinilai = \App\Models\Krs::with('jadwal.mataKuliah')
             ->where('user_id', $user->id)
             ->whereNotNull('nilai_akhir')

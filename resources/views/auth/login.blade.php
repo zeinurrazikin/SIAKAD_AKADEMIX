@@ -12,21 +12,10 @@
 
         <!-- Main Content -->
         <div class="max-w-md w-full space-y-8">
-            <!-- Logo and Title Container -->
+
             <div class="text-center relative">
-                <div class="relative inline-block">
-                    <div class="h-20 w-20 rounded-full bg-gradient-to-r from-indigo-600 to-indigo-700 flex items-center justify-center shadow-2xl mx-auto border-4 border-white/20">
-                        <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                    </div>
-                    <!-- Floating glow effect -->
-                    <div class="absolute -inset-2 rounded-full bg-indigo-600/20 blur-lg animate-pulse"></div>
-                </div>
-                
                 <h2 class="mt-6 text-3xl font-extrabold text-white tracking-tight relative">
                     <span class="relative z-10">AkademiX</span>
-                    <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-400 to-transparent"></div>
                 </h2>
                 <p class="mt-2 text-sm text-indigo-200">
                     Sistem Informasi Akademik Terpadu
@@ -38,7 +27,7 @@
                 <!-- Welcome Message -->
                 <div class="text-center mb-6">
                     <h3 class="text-xl font-semibold text-gray-800">Selamat Datang</h3>
-                    <p class="text-sm text-gray-500 mt-1">Masukkan kredensial Anda untuk melanjutkan</p>
+                    <p class="text-sm text-gray-500 mt-1">Masukkan Akun Anda untuk melanjutkan</p>
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
@@ -67,12 +56,13 @@
                             >
                         </div>
                         @error('email')
-                            <p class="mt-2 text-sm text-red-600 flex items-center">
-                                <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                {{ $message }}
-                            </p>
+                            <span class="text-red-600 text-sm">
+                                @if($message === 'auth.failed' || $message === 'These credentials do not match our records.')
+                                    Login gagal, pastikan email dan password sesuai!
+                                @else
+                                    {{ $message }}
+                                @endif
+                            </span>
                         @enderror
                     </div>
 
@@ -120,15 +110,7 @@
                                 Ingat saya
                             </label>
                         </div>
-
-                        @if (Route::has('password.request'))
-                            <div class="text-sm">
-                                <a href="{{ route('password.request') }}" class="font-medium text-indigo-600 hover:text-indigo-700 transition duration-200 relative group">
-                                    Lupa kata sandi?
-                                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-                                </a>
-                            </div>
-                        @endif
+                        
                     </div>
 
                     <!-- Submit Button -->
@@ -145,7 +127,7 @@
 
                 <!-- Footer -->
                 <div class="mt-8 pt-6 border-t border-gray-200">
-                    <div class="flex justify-center space-x-6">
+                    <!-- <div class="flex justify-center space-x-6">
                         <div class="flex items-center text-xs text-gray-500">
                             <svg class="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -164,7 +146,7 @@
                             </svg>
                             Terpercaya
                         </div>
-                    </div>
+                    </div> -->
                     <div class="mt-4 text-center">
                         <p class="text-xs text-gray-500">
                             © {{ date('Y') }} Akademix. Hak Cipta Dilindungi.

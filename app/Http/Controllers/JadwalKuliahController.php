@@ -11,22 +11,21 @@ use Illuminate\Http\Request;
 
 class JadwalKuliahController extends Controller
 {
-    // 1. TAMPILKAN JADWAL (Kita buat sederhana dulu biar tidak error pas redirect)
+    // TAMPILKAN JADWAL 
     public function index()
     {
-        // Gunakan 'with' agar loading data relasi cepat
         $jadwals = JadwalKuliah::with(['mataKuliah', 'dosen', 'ruangan', 'semester'])->latest()->get();
         return view('admin.jadwal.index', compact('jadwals'));
     }
 
-    // 2. FORM TAMBAH (Ini bagian paling krusial)
+    //FORM TAMBAH
     public function create()
     {
         // Kita butuh data dari tabel lain untuk pilihan Dropdown
         $mataKuliahs = MataKuliah::all();
-        $dosens = User::where('role', 'dosen')->get(); // Ambil HANYA yang dosen
+        $dosens = User::where('role', 'dosen')->get();
         $ruangans = Ruangan::all();
-        $semesters = Semester::where('aktif', 1)->get(); // Opsional: Ambil semester aktif saja
+        $semesters = Semester::where('aktif', 1)->get();
 
         return view('admin.jadwal.create', compact('mataKuliahs', 'dosens', 'ruangans', 'semesters'));
     }
@@ -50,7 +49,6 @@ class JadwalKuliahController extends Controller
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dibuat!');
     }
 
-    // Hapus (Kita butuh ini untuk testing nanti)
     public function destroy($id)
     {
         $jadwal = JadwalKuliah::findOrFail($id);

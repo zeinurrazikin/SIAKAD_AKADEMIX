@@ -4,13 +4,12 @@ use App\Models\JadwalKuliah;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\DashboardController; // Add this import
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Main Dashboard route acts as a dispatcher
 Route::get('/dashboard', function () {
     $user = Auth::user();
 
@@ -21,8 +20,7 @@ Route::get('/dashboard', function () {
     } elseif ($user->role == 'admin') {
         return redirect()->route('admin.dashboard');
     }
-    // Fallback if role is not recognized or not logged in (should be caught by middleware)
-    return redirect()->route('profile.edit'); // Or any other appropriate fallback
+    return redirect()->route('profile.edit');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rute Khusus Admin
@@ -41,10 +39,10 @@ Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->grou
     // Halaman List Kelas
     Route::get('/input-nilai', [App\Http\Controllers\DosenNilaiController::class, 'index'])->name('nilai.index');
 
-    // 1. Masuk ke kelas tertentu (Lihat mahasiswa)
+    // Masuk ke kelas tertentu
     Route::get('/input-nilai/{jadwal}', [App\Http\Controllers\DosenNilaiController::class, 'show'])->name('nilai.show');
 
-    // 2. Simpan Nilai Massal (Batch Update)
+    // Simpan Nilai Massal
     Route::post('/input-nilai/batch-update/{jadwal}', [App\Http\Controllers\DosenNilaiController::class, 'batchUpdate'])->name('nilai.batchUpdate');
 });
 Route::middleware('auth')->group(function () {

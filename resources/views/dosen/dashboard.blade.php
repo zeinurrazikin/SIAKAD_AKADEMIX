@@ -9,20 +9,13 @@
             <div class="md:flex md:items-center md:justify-between">
                 <div class="min-w-0 flex-1">
                     <h2 class="text-3xl font-extrabold leading-8 text-white sm:text-4xl tracking-tight">
-                        Dosen Portal
+                        Dashboard Dosen
                     </h2>
                     <p class="mt-2 text-sky-200">
-                        Selamat datang kembali, <span class="font-semibold text-white">{{ Auth::user()->name }}</span>
+                        Selamat datang, <span class="font-semibold text-white">{{ Auth::user()->name }}</span>
                     </p>
                 </div>
                 <div class="mt-4 flex flex-col sm:flex-row gap-3 md:ml-4 md:mt-0">
-                    <div class="flex items-center gap-2 px-4 py-2 bg-green-500/20 backdrop-blur-md rounded-full border border-green-400/30">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
-                        </span>
-                        <span class="text-sm font-medium text-green-100">Online</span>
-                    </div>
                     <span class="inline-flex items-center rounded-full bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
                         {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
                     </span>

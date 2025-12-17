@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 
 class RuanganController extends Controller
 {
-    // 1. TAMPILKAN DAFTAR RUANGAN
+    // TAMPILKAN DAFTAR RUANGAN
     public function index()
     {
         $ruangans = Ruangan::latest()->get();
         return view('admin.ruangan.index', compact('ruangans'));
     }
 
-    // 2. FORM TAMBAH
+    // FORM TAMBAH
     public function create()
     {
         return view('admin.ruangan.create');
     }
 
-    // 3. PROSES SIMPAN
+    // PROSES SIMPAN
     public function store(Request $request)
     {
         $request->validate([
@@ -33,14 +33,14 @@ class RuanganController extends Controller
         return redirect()->route('admin.ruangan.index')->with('success', 'Ruangan berhasil ditambahkan');
     }
 
-    // 4. FORM EDIT (Pakai ID biar aman)
+    // FORM EDIT
     public function edit($id)
     {
         $ruangan = Ruangan::findOrFail($id);
         return view('admin.ruangan.edit', compact('ruangan'));
     }
 
-    // 5. PROSES UPDATE (Pakai ID biar aman)
+    // PROSES UPDATE
     public function update(Request $request, $id)
     {
         $ruangan = Ruangan::findOrFail($id);
@@ -55,7 +55,6 @@ class RuanganController extends Controller
         return redirect()->route('admin.ruangan.index')->with('success', 'Ruangan berhasil diupdate');
     }
 
-    // 6. HAPUS
     public function destroy($id)
     {
         $ruangan = Ruangan::findOrFail($id);

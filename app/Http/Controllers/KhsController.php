@@ -34,11 +34,11 @@ class KhsController extends Controller
         // Kita juga butuh data Semester untuk pengelompokan
         $krsData = Krs::with(['jadwal.mataKuliah', 'jadwal.semester', 'jadwal.dosen'])
             ->where('user_id', $user->id)
-            ->whereNotNull('nilai_akhir') // Hanya yang sudah dinilai
+            ->whereNotNull('nilai_akhir')
             ->get()
-            ->groupBy('jadwal.semester.nama_semester'); // KELOMPOKKAN PER SEMESTER
+            ->groupBy('jadwal.semester.nama_semester');
 
-        // Kita siapkan array untuk menampung hasil hitungan per semester
+        //untuk array hasil hitungan per semester
         $hasilStudi = [];
 
         foreach ($krsData as $semesterNama => $groupKrs) {
@@ -68,26 +68,26 @@ class KhsController extends Controller
         return view('mahasiswa.khs.index', compact('user', 'hasilStudi'));
     }
 
-    // 2. HALAMAN TRANSKRIP (REKAP SEMUA NILAI)
+    // 2. HALAMAN TRANSKRIP
     public function transkrip()
     {
         $user = Auth::user();
 
-        // Ambil SEMUA data KRS yang sudah dinilai (Tanpa grouping semester)
+        // Ambil SEMUA data KRS yang sudah dinilai
         // Kita urutkan berdasarkan Kode Mata Kuliah agar rapi
         $transkrip = Krs::with(['jadwal.mataKuliah', 'jadwal.semester'])
             ->where('user_id', $user->id)
             ->whereNotNull('nilai_akhir')
             ->get()
-            ->sortBy('jadwal.mataKuliah.kode_mk'); // Urutkan kode MK
+            ->sortBy('jadwal.mataKuliah.kode_mk');
 
-        // Hitung IPK (Kumulatif)
+        // Hitung IPK
         $totalSks = 0;
         $totalMutu = 0;
 
         foreach ($transkrip as $data) {
             $sks = $data->jadwal->mataKuliah->sks;
-            $bobot = $this->hitungBobot($data->grade); // Pakai fungsi private tadi
+            $bobot = $this->hitungBobot($data->grade);
 
             $totalSks += $sks;
             $totalMutu += ($sks * $bobot);

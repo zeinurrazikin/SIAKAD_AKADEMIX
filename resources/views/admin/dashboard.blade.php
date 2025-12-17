@@ -8,20 +8,13 @@
             <div class="md:flex md:items-center md:justify-between">
                 <div class="min-w-0 flex-1">
                     <h2 class="text-3xl font-extrabold leading-8 text-white sm:text-4xl tracking-tight">
-                        Administrator Portal
+                        Dashboard Admin
                     </h2>
                     <p class="mt-2 text-indigo-200">
-                        Selamat datang kembali, <span class="font-semibold text-white">{{ Auth::user()->name }}</span>
+                        Selamat datang, <span class="font-semibold text-white">{{ Auth::user()->name }}</span>
                     </p>
                 </div>
                 <div class="mt-4 flex flex-col sm:flex-row gap-3 md:ml-4 md:mt-0">
-                    <div class="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 backdrop-blur-md rounded-full border border-emerald-400/30">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-                        </span>
-                        <span class="text-sm font-medium text-emerald-100">Online</span>
-                    </div>
                     <span class="inline-flex items-center rounded-full bg-black/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm border border-white/10">
                         {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
                     </span>
@@ -129,17 +122,6 @@
                                     </div>
                                 </div>
                                 <span class="text-xl font-bold text-gray-900">{{ $totalSemester }}</span>
-                            </div>
-
-                            <!-- System Capacity -->
-                            <div class="pt-4 border-t border-gray-100">
-                                <div class="flex justify-between text-xs text-gray-500 mb-2">
-                                    <span>Kapasitas Sistem</span>
-                                    <span>92% Optimal</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-2">
-                                    <div class="bg-emerald-500 h-2 rounded-full w-[92%]"></div>
-                                </div>
                             </div>
                         </div>
                     </div>

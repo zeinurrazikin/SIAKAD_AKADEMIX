@@ -8,21 +8,21 @@ use Illuminate\Http\Request;
 
 class MataKuliahController extends Controller
 {
-    // 1. TAMPILKAN DAFTAR MK
+    // TAMPILKAN DAFTAR MK
     public function index()
     {
         $mataKuliahs = MataKuliah::with('prodi')->latest()->get();
         return view('admin.matakuliah.index', compact('mataKuliahs'));
     }
 
-    // 2. FORM TAMBAH
+    // FORM TAMBAH
     public function create()
     {
         $prodis = Prodi::all();
         return view('admin.matakuliah.create', compact('prodis'));
     }
 
-    // 3. PROSES SIMPAN
+    // PROSES SIMPAN
     public function store(Request $request)
     {
         $request->validate([
@@ -38,18 +38,18 @@ class MataKuliahController extends Controller
         return redirect()->route('admin.matakuliah.index')->with('success', 'Berhasil disimpan!');
     }
 
-    // 4. FORM EDIT (BAGIAN YANG ERROR TADI)
-    // Kita gunakan $id lalu cari manual agar variabel $mataKuliah PASTI ADA.
+    // FORM EDIT
+    // Kita gunakan $id
     public function edit($id)
     {
-        $mataKuliah = MataKuliah::findOrFail($id); // Cari data, kalau ga ada error 404
+        $mataKuliah = MataKuliah::findOrFail($id);
         $prodis = Prodi::all();
 
-        // Pastikan variabel 'mataKuliah' ini sama persis tulisannya dengan di View
+        // Pastikan variabel 'mataKuliah'
         return view('admin.matakuliah.edit', compact('mataKuliah', 'prodis'));
     }
 
-    // 5. PROSES UPDATE
+    // PROSES UPDATE
     public function update(Request $request, $id)
     {
         $mataKuliah = MataKuliah::findOrFail($id);
@@ -67,7 +67,6 @@ class MataKuliahController extends Controller
         return redirect()->route('admin.matakuliah.index')->with('success', 'Berhasil diupdate!');
     }
 
-    // 6. HAPUS
     public function destroy($id)
     {
         $mataKuliah = MataKuliah::findOrFail($id);

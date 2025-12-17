@@ -20,8 +20,6 @@ class JadwalKuliah extends Model
         'kuota'
     ];
 
-    // ================= RELASI (PENTING) =================
-
     // Jadwal milik Mata Kuliah
     public function mataKuliah()
     {

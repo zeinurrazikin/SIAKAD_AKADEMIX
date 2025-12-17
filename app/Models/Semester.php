@@ -9,6 +9,5 @@ class Semester extends Model
 {
     use HasFactory;
 
-    // Pastikan ini ada!
     protected $fillable = ['nama_semester', 'aktif'];
 }
